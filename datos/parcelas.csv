@@ -1,0 +1,6 @@
+parcela_id,nombre,localidad,departamento,superficie_ha,cultivo
+P01,La Loma,Tiraque,Cochabamba,1.5,papa
+P02,El Molino,Cliza,Cochabamba,2.0,maiz
+P03,Altiplano Norte,Salinas de Garci Mendoza,Oruro,3.0,quinua
+P04,Valle Alto,Tarata,Cochabamba,1.0,haba
+P05,Invernadero Sol,Vallegrande,Santa Cruz,0.5,tomate

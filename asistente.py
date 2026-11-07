@@ -1,30 +1,18 @@
-"""El agente: modelo + instrucciones + capabilities. Sin memoria: cada mensaje empieza de cero.
+"""AgroBot: el router y los especialistas viven en flujo.py (S4); aquí está la puerta de entrada.
 
 Pruébalo en la terminal, sin Telegram:  uv run asistente.py
 """
 
 import asyncio
 
-from pydantic_ai import Agent
+from flujo import ESPECIALISTAS, Consulta, grafo
 
-from capacidades import apis, consulta, documentos, registro
-from config import modelo
-
-asistente = Agent(
-    modelo,
-    # ← Cambia esto por tu caso: para quién es, qué hace y qué NO hace.
-    instructions=(
-        "Eres el asistente personal de Alex: economía, clima, sus gastos y sus documentos. "
-        "Responde en español, breve y en texto plano (sin Markdown)."
-    ),
-    capabilities=[apis, consulta, registro, documentos],  # ← aquí enchufas tus capabilities
-)
+asistente = ESPECIALISTAS["general"]  # el agente principal: charla y explica qué hace AgroBot
 
 
 async def responder(mensaje: str) -> str:
-    """Lo único que necesita el bot: un mensaje entra, una respuesta sale."""
-    resultado = await asistente.run(mensaje)  # await: mientras espera al modelo, el bot atiende a otros
-    return resultado.output
+    """Lo único que necesita el bot: un mensaje entra, una respuesta sale. El grafo decide quién responde."""
+    return await grafo.run(state=Consulta(), inputs=mensaje)  # await: mientras espera, el bot atiende a otros
 
 
 async def main() -> None:

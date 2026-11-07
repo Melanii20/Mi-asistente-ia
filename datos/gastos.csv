@@ -1,11 +1,24 @@
-fecha,categoria,descripcion,monto
-2030-05-02,transporte,Trufi a la universidad,6
-2030-05-03,alimentacion,Almuerzo en el mercado,25
-2030-05-05,transporte,Taxi al aeropuerto,45
-2030-05-07,educacion,Libro de Python,120
-2030-05-09,alimentacion,Supermercado,210
-2030-05-10,transporte,Trufi a la universidad,6
-2030-05-11,ocio,Cine,40
-2030-05-12,salud,Farmacia,58
-2030-05-13,transporte,Minibús a Quillacollo,10
-2030-05-13,alimentacion,Cena con amistades,80
+fecha,parcela_id,categoria,descripcion,monto
+2025-10-05,P01,semillas,Semilla de papa certificada 12 qq,1800
+2025-10-08,P01,fertilizantes,Abono orgánico y fosfato 10 qq,950
+2025-10-12,P01,mano_de_obra,Jornales de siembra (6 personas),900
+2025-11-20,P01,mano_de_obra,Jornales de aporque (4 personas),600
+2026-04-25,P01,transporte,Flete de la cosecha al mercado,700
+2025-09-12,P02,semillas,Semilla de maíz 40 kg,480
+2025-09-15,P02,fertilizantes,Urea y abono compuesto 8 qq,1100
+2025-09-18,P02,herramientas,Reparación de arado y yunta,350
+2025-10-30,P02,mano_de_obra,Jornales de deshierbe (5 personas),750
+2026-03-28,P02,transporte,Flete de maíz a Cochabamba,520
+2025-09-20,P03,semillas,Semilla de quinua 25 kg,625
+2025-09-25,P03,fertilizantes,Abono de camélido (guano) 20 qq,800
+2025-10-02,P03,mano_de_obra,Jornales de siembra (8 personas),1200
+2026-03-20,P03,herramientas,Mallas y lonas para trilla,450
+2026-03-30,P03,transporte,Flete de quinua a Challapata,900
+2025-08-20,P04,semillas,Semilla de haba 60 kg,420
+2025-08-25,P04,fertilizantes,Fosfato diamónico 3 qq,540
+2025-09-10,P04,herramientas,Azadones y palas,280
+2026-01-30,P04,mano_de_obra,Jornales de cosecha (4 personas),520
+2025-08-15,P05,semillas,Plantines de tomate 1500 unidades,750
+2025-08-22,P05,herramientas,Estacas e hilo para tutorado,380
+2025-09-05,P05,fertilizantes,Abono foliar y compost,430
+2025-10-10,P05,mano_de_obra,Jornales de tutorado y poda (3 personas),450

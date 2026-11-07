@@ -8,6 +8,7 @@ __pycache__/
 
 # La base se crea desde datos/gastos.csv al usarse
 *.db
+*.db.tmp
 
 # Sistema
 .DS_Store

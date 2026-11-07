@@ -1,0 +1,6 @@
+cultivo,nombre_cientifico,ciclo_dias,altitud_msnm,temperatura_optima_c,mes_siembra,mes_cosecha,rendimiento_referencial_kg_ha,notas
+papa,Solanum tuberosum,150,2800-4000,10-18,octubre-noviembre,abril-mayo,12000,Sensible a heladas tempranas y al tizón tardío en época de lluvia
+maiz,Zea mays,180,1800-3000,15-25,septiembre-octubre,marzo-abril,3000,Necesita buena humedad en la floración; responde bien al nitrógeno
+quinua,Chenopodium quinoa,160,3000-4000,8-18,septiembre-octubre,marzo-abril,1100,Tolera sequía y suelos pobres; la saponina se elimina al lavar el grano
+haba,Vicia faba,140,2500-3500,10-20,agosto-septiembre,enero-febrero,2500,Fija nitrógeno en el suelo; sensible a la mancha chocolate con humedad alta
+tomate,Solanum lycopersicum,120,1000-2500,18-26,agosto-septiembre,diciembre-marzo,40000,Se maneja mejor bajo cubierta; exige riego regular y tutorado

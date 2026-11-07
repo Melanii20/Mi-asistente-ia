@@ -199,6 +199,19 @@ La IA te ayuda, pero el código es tuyo: entiende cada cambio antes de aceptarlo
 └── .agents/skills/     el skill del curso
 ```
 
+## 8 · AgroBot (mi versión)
+
+Convertí el asistente en **AgroBot**, un ayudante para pequeños productores agrícolas de Bolivia. Le puedes preguntar por cultivos (papa, maíz, quinua, haba, tomate), el clima de tu localidad, tus gastos y costos, tu producción, los manuales en PDF y las plagas, y te responde diciendo de dónde sacó cada dato. Los datos y los PDFs son ficticios; el clima es real (Open-Meteo).
+
+Qué agregué: búsqueda web de plagas con Tavily (S2), un servidor MCP que lee los manuales (S3) y un grafo que decide qué especialista responde cada pregunta (S4). Todo está en `capacidades.py`, `mcp_agro.py` y `flujo.py`.
+
+Para usar la búsqueda web hace falta una variable más, sin valor aquí: `TAVILY_API_KEY` (en `.env` y en *Environment* de Render). Sin ella, el bot funciona igual pero no busca en internet.
+
+Preguntas para probarlo:
+- «¿Cuánto costó producir en la parcela P01 y qué rendimiento tuvo?»
+- «¿Va a llover mañana en Cliza?»
+- «¿Cómo prevengo el tizón tardío en la papa?»
+
 ---
 
 Autor: **Alex Ojeda Copa**. Código bajo licencia [MIT](LICENSE).

@@ -1,0 +1,18 @@
+fecha,parcela_id,tipo,descripcion
+2025-10-12,P01,siembra,Siembra de papa en surcos
+2025-11-20,P01,control_malezas,Aporque y deshierbe
+2025-12-15,P01,fertilizacion,Segunda aplicación de abono
+2026-04-22,P01,cosecha,Cosecha manual de papa
+2025-09-18,P02,siembra,Siembra de maíz con yunta
+2025-10-30,P02,control_malezas,Deshierbe manual
+2025-11-25,P02,riego,Riego por surcos en la floración
+2026-03-26,P02,cosecha,Cosecha y secado de mazorcas
+2025-10-02,P03,siembra,Siembra de quinua al voleo
+2025-11-15,P03,control_malezas,Raleo y deshierbe
+2026-03-18,P03,cosecha,Corte y trilla de quinua
+2025-08-28,P04,siembra,Siembra de haba
+2025-10-05,P04,riego,Riego complementario
+2026-01-28,P04,cosecha,Cosecha de haba verde
+2025-08-22,P05,siembra,Trasplante de plantines de tomate
+2025-10-10,P05,fertilizacion,Aplicación de abono foliar
+2025-11-12,P05,riego,Riego por goteo semanal
