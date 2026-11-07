@@ -201,16 +201,46 @@ La IA te ayuda, pero el código es tuyo: entiende cada cambio antes de aceptarlo
 
 ## 8 · AgroBot (mi versión)
 
-Convertí el asistente en **AgroBot**, un ayudante para pequeños productores agrícolas de Bolivia. Le puedes preguntar por cultivos (papa, maíz, quinua, haba, tomate), el clima de tu localidad, tus gastos y costos, tu producción, los manuales en PDF y las plagas, y te responde diciendo de dónde sacó cada dato. Los datos y los PDFs son ficticios; el clima es real (Open-Meteo).
+**AgroBot:** asistente agrícola para pequeños productores de Bolivia.
+**Bot:** @melanyasistentebot
 
-Qué agregué: búsqueda web de plagas con Tavily (S2), un servidor MCP que lee los manuales (S3) y un grafo que decide qué especialista responde cada pregunta (S4). Todo está en `capacidades.py`, `mcp_agro.py` y `flujo.py`.
+AgroBot combina seis herramientas: fichas de cultivos (papa, maíz, quinua, haba y tomate), clima con Open-Meteo, una base SQLite con gastos, actividades y producción, RAG con manuales PDF, un servidor MCP que lee esos manuales, y búsqueda web con Tavily para plagas y enfermedades. Un grafo de Pydantic AI clasifica cada mensaje y lo envía a un especialista que solo tiene las tools que necesita. Calcula costos en bolivianos (por categoría, por hectárea y por kg), estima el rendimiento cuando hay cosechas registradas y responde citando sus fuentes: `[PDF: ...]` para los manuales y `[Web: ...]` para internet. Los datos de cultivos, parcelas, gastos y PDFs son ficticios; el clima es real. Es orientativo y no reemplaza a un ingeniero agrónomo.
 
-Para usar la búsqueda web hace falta una variable más, sin valor aquí: `TAVILY_API_KEY` (en `.env` y en *Environment* de Render). Sin ella, el bot funciona igual pero no busca en internet.
+Para la búsqueda web hace falta una variable más, sin valor aquí: `TAVILY_API_KEY` (en `.env` y en *Environment* de Render). Sin ella, el bot funciona igual pero no busca en internet.
 
-Preguntas para probarlo:
-- «¿Cuánto costó producir en la parcela P01 y qué rendimiento tuvo?»
-- «¿Va a llover mañana en Cliza?»
-- «¿Cómo prevengo el tizón tardío en la papa?»
+Preguntas sugeridas:
+- ¿Cuánto costó producir en la parcela P01 y qué rendimiento tuvo?
+- ¿Cómo estará el clima en Tiraque los próximos 3 días?
+- ¿Cómo prevengo el tizón tardío en la papa? Dime qué dicen los manuales y qué dice internet.
+- Según los manuales, ¿cómo se fertiliza el maíz?
+- ¿Qué rendimiento tuvo la parcela P05? (el tomate no tiene cosechas: debe decirlo, no inventarlo)
+- Registra un gasto de 45 Bs en transporte para la parcela P02 con fecha 2026-11-05, flete de insumos.
+
+## 9 · Qué se implementó (parte técnica)
+
+**Funcionalidades pedidas y dónde están**
+
+| Funcionalidad | Tool | Cómo funciona |
+|---|---|---|
+| Información de cultivos | `consultar_cultivo` | Lee `cultivos.csv` y devuelve la ficha con su fuente |
+| Clima | `consultar_clima` | Open-Meteo: geocodificación del lugar (limitada a Bolivia) y luego pronóstico de hasta 7 días con temperatura, lluvia, probabilidad de lluvia, humedad y viento. Si no encuentra el lugar, pide uno más específico |
+| Registrar gastos | `registrar_gasto` | Inserta en SQLite; valida fecha, parcela y monto mayor que 0 |
+| Costos de producción | `calcular_costos` | Total en Bs, desglose por categoría, costo por hectárea y por kg (la suma la hace el código, no el modelo) |
+| Registrar actividades | `registrar_actividad` | Siembra, riego, fertilización, control de malezas y cosecha |
+| Producción y rendimiento | `consultar_produccion` | kg/ha solo si hay cosechas; si no, avisa que faltan datos |
+| Manuales PDF | `buscar_manual` | RAG: `pypdf`, trozos de 300 caracteres, embeddings de Gemini, Chroma y citas `[PDF: archivo-N]` |
+| Plagas y enfermedades | `buscar_plagas` | Manuales + Tavily en paralelo; busca primero en FAO, INIAF, SENASAG, CIP, PROINPA y CGIAR, y avisa si la fuente no es de esa lista |
+
+**Por sesión**
+- **S1:** tools en `capacidades.py` con `Capability`; SQLite con SQL parametrizado (`?`), lectura en modo solo lectura y datos en `datos/*.csv`.
+- **S2:** Tavily (`AsyncTavilyClient`) más RAG; las respuestas separan «En los manuales» de «En internet».
+- **S3:** `mcp_agro.py` es un servidor MCP de solo lectura con `listar_manuales` y `leer_manual`. Solo acepta nombres de la lista de PDFs (no puede leer otros archivos) y el agente lo usa con `allowed_tools`.
+- **S4:** `flujo.py` tiene un router (`NativeOutput`) que clasifica en 7 rutas (clima, cultivos, plagas, gastos, producción, manuales, general) y un especialista por ruta. El que lee la web no puede escribir en la base, y el que escribe no lee la web.
+- **S5:** todo es `async`; las llamadas que bloquean (embeddings, Chroma) van en `asyncio.to_thread`. `bot.py` mantiene `TELEGRAM_PERMITIDOS` y rechaza antes de llamar al modelo. `render.yaml` incluye `TAVILY_API_KEY`.
+
+**Pruebas:** 43 pruebas con `uv run pytest`, sin gastar cuota: modelos falsos, Open-Meteo y Tavily simulados, RAG con embeddings falsos, y el servidor MCP real por stdio.
+
+**Límites conocidos:** no tiene memoria entre mensajes; en Render Free lo registrado desde Telegram se pierde al reiniciar; cada mensaje hace dos llamadas al modelo (router y especialista) y lanza el servidor MCP, así que es algo más lento.
 
 ---
 

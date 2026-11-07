@@ -405,6 +405,11 @@ async def test_si_el_router_falla_el_error_sube_para_que_el_bot_avise():
         await asistente.responder("hola")
 
 
+def test_todos_los_especialistas_saben_de_quien_son():
+    """La identidad va en PERSONALIDAD, común a todos: da igual qué ruta reciba la pregunta."""
+    assert "asistente personal de Melany Chavarria" in flujo.PERSONALIDAD
+
+
 def test_el_grafo_se_dibuja_con_las_7_rutas():
     diagrama = flujo.grafo.render()
     for ruta in RUTAS:
